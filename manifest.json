@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "Chrome Extension Boilerplate",
-  "short_name": "Boilerplate",
-  "description": "Boilerplate to create Chrome extensions using TypeScript + ReactJS",
+  "name": "TRPG Connector",
+  "short_name": "TRPG Connector",
+  "description": "Connect Roll 20 with TRPG Tools",
   "version": "AUTO_FILLED",
 
   "icons": {
@@ -15,9 +15,24 @@
   },
 
   "browser_action": {
-    "default_title": "",
-    "default_icon": "icons/icon128.png",
-    "default_popup": "static/index.html"
+    "default_title": "TRPG Connector",
+    "default_icon": "icons/icon128.png"
   },
-  "permissions": ["http://*/*", "https://*/*"]
+
+  "content_scripts": [
+    {
+      "js": ["app.js"],
+      "run_at": "document_end",
+      "matches": ["https://*.roll20.net/*"]
+    }
+  ],
+
+  "permissions": [
+    "storage",
+    "http://*.roll20.net/*",
+    "https://*.roll20.net/*",
+    "https://*.danikaze.com/*"
+  ],
+
+  "web_accessible_resources": ["img/*"]
 }

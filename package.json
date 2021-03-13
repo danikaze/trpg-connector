@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "chrome-extension-boilerplate",
+  "name": "trpg-connector",
   "version": "0.1.0",
-  "description": "Boilerplate to create Chrome extensions using TypeScript + ReactJS",
+  "description": "Connect Roll 20 with TRPG Tools",
   "scripts": {
     "dev": "webpack --config webpack.config.js --env=development",
     "build": "scripts/build.sh",
