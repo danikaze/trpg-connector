@@ -1,3 +1,3 @@
 module.exports = {
-  GLOBAL_EXAMPLE: 'GLOBAL_EXAMPLE',
+  LOG_PREFIX: 'TRPG',
 };
