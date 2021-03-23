@@ -18,13 +18,18 @@
       "@components/*": ["src/components/*"],
       "@img": ["src/img"],
       "@img/*": ["src/img/*"],
-      "@src": ["src"],
-      "@src/*": ["src/*"],
+      "@store": ["src/store"],
+      "@store/*": ["src/store/*"],
       "@themes": ["src/themes"],
       "@themes/*": ["src/themes/*"],
       "@utils": ["src/utils"],
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["build-time-constants/*.d.ts", "src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    "build-time-constants/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/store/model/char-track"
+  ]
 }

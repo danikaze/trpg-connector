@@ -15,7 +15,7 @@ rules:
   # https://palantir.github.io/tslint/rules/max-line-length/
   max-line-length:
     - true
-    - limit: 80
+    - limit: 100
       ignore-pattern: '^import |new RegExp| = \/|https?:\/\/'
 
   # https://palantir.github.io/tslint/rules/file-name-casing/
@@ -422,6 +422,6 @@ rules:
     # Our custom aliases/absolute-pathes
     - - '@components'
       - '@img'
-      - '@src'
+      - '@store'
       - '@themes'
       - '@utils'
