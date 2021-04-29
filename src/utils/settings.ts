@@ -60,6 +60,16 @@ async function loadSettings(): Promise<Settings> {
       try {
         if (settings) {
           const json = JSON.parse(settings) as Settings;
+
+          try {
+            // if a char state was set to sending, need to "reset" it
+            Object.keys(json.charTrack.char).forEach((charId) => {
+              if (json.charTrack.char[charId]!.state === 'sending') {
+                json.charTrack.char[charId]!.state = 'set';
+              }
+            });
+          } catch (e) {}
+
           msgLog('Settings loaded', json);
           resolve(await upgradeSettings(json));
         } else {
