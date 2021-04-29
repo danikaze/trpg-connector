@@ -1,5 +1,5 @@
 import { CharTrackAction } from './char-track';
-import { LoadSettingsAction } from './settings';
+import { SettingsAction } from './settings';
 
 export type AppAction<
   T extends string,
@@ -11,4 +11,4 @@ export type AppAction<
 } & (P extends undefined ? { payload?: P } : { payload: P }) &
   (M extends undefined ? { meta?: M } : { meta: M });
 
-export type Action = CharTrackAction | LoadSettingsAction;
+export type Action = CharTrackAction | SettingsAction;

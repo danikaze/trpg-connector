@@ -8,6 +8,11 @@ const defaultOptions: WaitUntilOptions = {
   maxTries: 30,
 };
 
+/**
+ * The promise returned by this function gets resolved when the callback
+ * evaluates to something different than `undefined` (even false).
+ * The resolved value is what the callback returns when is not `undefined`
+ */
 export function waitUntil<T>(
   condition: () => T | undefined,
   options?: Partial<WaitUntilOptions>
