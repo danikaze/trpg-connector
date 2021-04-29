@@ -38,20 +38,20 @@ const fields: Record<
   }
 > = {
   title: statName,
-  6: statAlignment,
-  7: statRace,
-  8: statClass,
-  9: statLevel,
-  10: statHp,
-  11: statMaxHp,
-  12: statTempHp,
-  13: statStrength,
-  14: statDexterity,
-  15: statConstitution,
-  16: statIntelligence,
-  17: statWisdom,
-  18: statCharisma,
-  19: statArmorClass,
+  9: statAlignment,
+  10: statRace,
+  11: statClass,
+  12: statLevel,
+  13: statHp,
+  14: statMaxHp,
+  15: statTempHp,
+  16: statStrength,
+  17: statDexterity,
+  18: statConstitution,
+  19: statIntelligence,
+  20: statWisdom,
+  21: statCharisma,
+  22: statArmorClass,
 };
 
 const FIELD_ALIGNMENT = 6;
@@ -64,7 +64,7 @@ export class CharStatTracker {
   protected static readonly STOP_AFTER_ERRORS = 3;
   protected static readonly THROTTLE_MS = 1000;
   protected static readonly API_URL =
-    'http://localhost:3000/api/v1/{keyId}/update-note';
+    'http://localhost:3000/api/v1/{keyId}/note';
 
   protected readonly charId: string;
   protected tracking: boolean = false;
