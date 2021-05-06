@@ -30,6 +30,8 @@ export type CharacterStats = Partial<
   } & Record<string | number, string | number>
 >;
 
+type ListenMethod = 'poll' | 'event';
+
 const fields: Record<
   keyof CharacterStats,
   {
@@ -61,6 +63,8 @@ const FIELD_LEVEL = 9;
 const ALIGNMENTS = ['LG', 'NG', 'CG', 'LN', 'NN', 'CN', 'LE', 'NE', 'CE'];
 
 export class CharStatTracker {
+  protected static readonly METHOD: ListenMethod = 'poll';
+  protected static readonly POLL_INTERVAL = 1000;
   protected static readonly STOP_AFTER_ERRORS = 3;
   protected static readonly THROTTLE_MS = 1000;
   protected static readonly API_URL =
@@ -72,13 +76,20 @@ export class CharStatTracker {
   protected currentValues: CharacterStats = {};
   protected changedValues: CharacterStats = {};
   protected listeners: Record<keyof typeof fields, EventListener> = {};
+  protected pollTimer: number | undefined;
   protected errors = 0;
   protected sending = false;
   protected queued = false;
 
   constructor(charId: string) {
     this.charId = charId;
-    this.updateStats = debounce(CharStatTracker.THROTTLE_MS, this.updateStats);
+    if (CharStatTracker.METHOD === 'event') {
+      this.updateStats = debounce(
+        CharStatTracker.THROTTLE_MS,
+        this.updateStats
+      );
+    }
+    this.poll = this.poll.bind(this);
   }
 
   protected static normalizeValues(values: CharacterStats): CharacterStats {
@@ -152,13 +163,21 @@ export class CharStatTracker {
     this.tracking = true;
     this.changedValues = this.getCurrentValues();
     this.updateStats();
-    this.addListeners();
+    if (CharStatTracker.METHOD === 'event') {
+      this.addListeners();
+    } else if (CharStatTracker.METHOD === 'poll') {
+      this.startPolling();
+    }
   }
 
   public stop() {
     if (!this.tracking) return;
     this.tracking = false;
-    this.removeListeners();
+    if (CharStatTracker.METHOD === 'event') {
+      this.removeListeners();
+    } else if (CharStatTracker.METHOD === 'poll') {
+      this.startPolling();
+    }
     msgLog(`Stop tracking stats for character ${this.charId}`);
   }
 
@@ -222,6 +241,25 @@ export class CharStatTracker {
       }
       return values;
     }, {} as CharacterStats);
+  }
+
+  protected startPolling() {
+    if (this.pollTimer) return;
+    this.pollTimer = window.setInterval(
+      this.poll,
+      CharStatTracker.POLL_INTERVAL
+    );
+  }
+
+  protected endPolling() {
+    if (!this.pollTimer) return;
+    window.clearInterval(this.pollTimer);
+    this.pollTimer = undefined;
+  }
+
+  protected poll() {
+    this.changedValues = this.getCurrentValues();
+    this.updateStats();
   }
 
   protected addListeners() {
